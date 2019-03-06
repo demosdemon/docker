@@ -1,12 +1,12 @@
 [submodule "docker-circleci-tox"]
 	path = docker-circleci-tox
-	url = ssh://git@github.com/demosdemon/docker-circleci-tox.git
+	url = ../docker-circleci-tox.git
 [submodule "docker-pyenv"]
 	path = docker-pyenv
-	url = ssh://git@github.com/demosdemon/docker-pyenv.git
+	url = ../docker-pyenv.git
 [submodule "docker-tox-base"]
 	path = docker-tox-base
-	url = ssh://git@github.com/demosdemon/docker-tox-base.git
+	url = ../docker-tox-base.git
 [submodule "docker-tox"]
 	path = docker-tox
-	url = ssh://git@github.com/demosdemon/docker-tox.git
+	url = ../docker-tox.git
