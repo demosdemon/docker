@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "docker-pyenv"
+    },
+    {
+      "path": "docker-circleci-tox"
+    },
+    {
+      "path": "docker-tox"
+    },
+    {
+      "path": "docker-tox-base"
+    }
+  ],
+  "settings": {}
+}

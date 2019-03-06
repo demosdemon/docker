@@ -1,0 +1,12 @@
+[submodule "docker-circleci-tox"]
+	path = docker-circleci-tox
+	url = ../docker-circleci-tox
+[submodule "docker-pyenv"]
+	path = docker-pyenv
+	url = ../docker-pyenv
+[submodule "docker-tox-base"]
+	path = docker-tox-base
+	url = ../docker-tox-base
+[submodule "docker-tox"]
+	path = docker-tox
+	url = ../docker-tox
