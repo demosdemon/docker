@@ -15,6 +15,7 @@ env:
     - BUILD_IMAGES_4=circleci-tox
 
 before_script:
+  - if [[ "$DOCKER_PASSWORD" ]]; then echo -n "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; fi
   - docker pull debian:stretch-slim
 
 script:
@@ -26,25 +27,11 @@ script:
       printf 'travis_fold:%s:%s' "start" "${!build_image}"
       docker pull "$DOCKER_USERNAME/${!build_image}:latest" || true
       docker build -t "$DOCKER_USERNAME/${!build_image}:latest" "docker-${!build_image}"
+      if [[ "$TRAVIS_BRANCH" == "master" && "$DOCKER_PASSWORD" ]]; then
+        printf 'Uploading %s/%s:latest\n' "$DOCKER_USERNAME" "${!build_image}"
+        docker push "$DOCKER_USERNAME/${!build_image}:latest"
+      else
+        printf 'Not uploading.\n'
+      fi
       printf 'travis_fold:%s:%s' "end" "${!build_image}"
-    done
-
-after_success:
-  - |
-    if [[ $TRAVIS_BRANCH != "master" ]]; then
-      echo "Not on master, skipping deploy."
-      exit 0
-    fi
-  - |
-    if [[ -z $DOCKER_USERNAME || -z "DOCKER_PASSWORD" ]]; then
-      echo 'Missing required $DOCKER_USERNAME and/or $DOCKER_PASSWORD!' >&2
-      exit 1
-    fi
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - |
-    set -eux
-    idx=0
-    while ((idx++ < BUILD_IMAGES_COUNT)); do
-      build_image="BUILD_IMAGES_$idx"
-      docker push "$DOCKER_USERNAME/${!build_image}"
     done
