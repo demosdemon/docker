@@ -15,6 +15,7 @@ env:
     - BUILD_IMAGES_4=circleci-tox
 
 before_script:
+  - env | sort
   - if [[ "$DOCKER_PASSWORD" ]]; then echo -n "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; fi
 
 script:
