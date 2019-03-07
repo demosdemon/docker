@@ -2,6 +2,11 @@ language: minimal
 
 dist: trusty
 
+branches:
+  only:
+    - master
+    - /^test/
+
 services:
   - docker
 
