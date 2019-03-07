@@ -6,11 +6,11 @@ set -e
 export TZ="${TZ:-America/Chicago}"
 
 if [[ "$CI" ]]; then
-    declare -x
+	declare -x
 else
-    if [[ -z "$DOCKER_USERNAME" ]]; then
-        DOCKER_USERNAME=demosdemon
-    fi
+	if [[ -z $DOCKER_USERNAME ]]; then
+		DOCKER_USERNAME=demosdemon
+	fi
 fi
 
 declare -a build_images=(
@@ -55,6 +55,10 @@ for build_image in "${build_images[@]}"; do
 	_travis start "$build_image"
 	latest_image="${DOCKER_USERNAME}/${build_image}:latest"
 	image="${DOCKER_USERNAME}/${build_image}:${TRAVIS_BUILD_NUMBER:-0}"
+
+	from=$(grep '^FROM' "docker-${build_image}/Dockerfile" | cut -d ' ' -f2)
+	_log "Pulling base image $from..."
+	_exec docker pull "$from"
 
 	_log "Pulling $latest_image..."
 	_exec docker pull "$latest_image"
