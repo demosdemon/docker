@@ -23,13 +23,14 @@ script:
     idx=0
     while ((idx++ < BUILD_IMAGES_COUNT)); do
       build_image="BUILD_IMAGES_$idx"
-      printf 'travis_fold:%s:%s' "start" "${!build_image}"
-      docker build -t "$DOCKER_USERNAME/${!build_image}:latest" "docker-${!build_image}"
+      printf 'travis_fold:%s:%s\n' "start" "${!build_image}"
+      image="$DOCKER_USERNAME/${!build_image}:latest"
+      docker build --cache-from "$image" -t "$image" "docker-${!build_image}"
       if [[ "$TRAVIS_BRANCH" == "master" && "$DOCKER_PASSWORD" ]]; then
         printf 'Uploading %s/%s:latest\n' "$DOCKER_USERNAME" "${!build_image}"
         docker push "$DOCKER_USERNAME/${!build_image}:latest"
       else
         printf 'Not uploading.\n'
       fi
-      printf 'travis_fold:%s:%s' "end" "${!build_image}"
+      printf 'travis_fold:%s:%s\n' "end" "${!build_image}"
     done || true
