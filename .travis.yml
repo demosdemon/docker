@@ -34,4 +34,4 @@ script:
         printf 'Not uploading.\n'
       fi
       printf 'travis_fold:%s:%s' "end" "${!build_image}"
-    done
+    done || true
