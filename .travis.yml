@@ -1,5 +1,7 @@
 language: minimal
 
+dist: trusty
+
 services:
   - docker
 
