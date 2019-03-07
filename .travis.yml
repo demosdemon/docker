@@ -16,7 +16,6 @@ env:
 
 before_script:
   - if [[ "$DOCKER_PASSWORD" ]]; then echo -n "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; fi
-  - docker pull debian:stretch-slim
 
 script:
   - |
@@ -25,7 +24,6 @@ script:
     while ((idx++ < BUILD_IMAGES_COUNT)); do
       build_image="BUILD_IMAGES_$idx"
       printf 'travis_fold:%s:%s' "start" "${!build_image}"
-      docker pull "$DOCKER_USERNAME/${!build_image}:latest" || true
       docker build -t "$DOCKER_USERNAME/${!build_image}:latest" "docker-${!build_image}"
       if [[ "$TRAVIS_BRANCH" == "master" && "$DOCKER_PASSWORD" ]]; then
         printf 'Uploading %s/%s:latest\n' "$DOCKER_USERNAME" "${!build_image}"
