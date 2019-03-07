@@ -2,6 +2,17 @@
 
 set -e
 
+# for timestamps
+export TZ="${TZ:-America/Chicago}"
+
+if [[ "$CI" ]]; then
+    declare -x
+else
+    if [[ -z "$DOCKER_USERNAME" ]]; then
+        DOCKER_USERNAME=demosdemon
+    fi
+fi
+
 declare -a build_images=(
 	pyenv
 	tox-base
