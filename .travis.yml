@@ -22,7 +22,14 @@ env:
     - BUILD_IMAGES_4=circleci-tox
 
 before_script:
-  - if [[ "$DOCKER_PASSWORD" ]]; then echo -n "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; fi
+  - >-
+    if [[ "$DOCKER_PASSWORD" ]]; then
+      echo -n "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
+    fi
 
 script:
   - ./build.sh
+
+notifications:
+  slack:
+    secure: T6iA3ek+IiHLtXJIj0M5MalwuR1QM0G841OVXS4YCb09I5FPTMIbEryAALg6LZfOBShUZU9WjwtEAnAHPbo4MwIAcFonfdYeBbhs7unKzRm2cvyOBwn77B+d9vNDT+zLyE2sfskWT2XjukwHRCO+xoYytjMD0yd2FMv/X62pTp2UeeVV4Cv0XiH28f3bVHKfrqpax/9bmt2Y2hjt27FjY6aBtDFIco//YrH4mlBAYVnjxSTjFkTqLjd+V8SyyOKmpdcDHqJqQT+QIxHswp20C19pJA/B/1QHqEbRXL2T0PbdC/nNRRS2rizXNuvNtnmAjWvE4fnE4bgX997414BmTEEkRy2cNkNeS/2Lum6cBX5k9g7ooxOWCrloVCrFuqh9xgQvKp1gvBVuJpV9mQfniH+qUr8zRrj8UZub8qAufUclVKGICq+SPEuu5YZuJ0NZVKSUrIveyosMWB2UeadvJD1esFC/9jEvGcO7fMSiPPjaCOssXp+dhvWcTc0+4Fc6nBACRq8TLVJ8ELCFxWxanZtLoaazaDkqVpqtW8zAavBPkJvcCuRmx9Nhx324HfY2uv6zyenJq2sd9J9sF55f+V7wTEEjh7aXg4/DRgXz/D7Lk3n/y/XsnRDyWZrnz374SS0Pyg+I3pC6Jq9GtmqK/67x06blKJEp+TCqfC2n7RA=
