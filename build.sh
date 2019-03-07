@@ -22,7 +22,7 @@ declare -a build_images=(
 
 _travis() {
 	if [[ $TRAVIS == "true" ]]; then
-		printf 'travis_fold:%s:%s\n' "$1" "$2"
+		printf 'travis_fold:%s:%s\r\e[0K' "$1" "$2"
 	fi
 }
 
