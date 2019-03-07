@@ -26,14 +26,22 @@ script:
     idx=0
     for build_image in $(seq -f 'BUILD_IMAGES_%.0f' 1 $BUILD_IMAGES_COUNT); do
       printf 'travis_fold:%s:%s\n' "start" "${!build_image}"
-      image="$DOCKER_USERNAME/${!build_image}:latest"
-      docker pull "$image"
-      docker build --cache-from "$image" -t "$image" "docker-${!build_image}"
-      if [[ "$TRAVIS_BRANCH" == "master" && "$DOCKER_PASSWORD" ]]; then
-        printf 'Uploading %s/%s:latest\n' "$DOCKER_USERNAME" "${!build_image}"
-        docker push "$DOCKER_USERNAME/${!build_image}:latest"
-      else
-        printf 'Not uploading.\n'
+      latest_image="$DOCKER_USERNAME/${!build_image}:latest"
+      image="$DOCKER_USERNAME/${!build_image}:$TRAVIS_BUILD_NUMBER"
+
+      docker pull "$latest_image"
+      docker build --cache-from "$latest_image" -t "$image" "docker-${!build_image}"
+
+      if [[ -n "$DOCKER_PASSWORD" ]]; then
+        echo "Uploading $DOCKER_USERNAME/${!build_image}:$TRAVIS_BUILD_NUMBER"
+        docker push "$DOCKER_USERNAME/${!build_image}:$TRAVIS_BUILD_NUMBER"
+
+        if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+          echo "Uploading $DOCKER_USERNAME/${!build_image}:latest"
+          docker tag "$DOCKER_USERNAME/${!build_image}:$TRAVIS_BUILD_NUMBER" "$DOCKER_USERNAME/${!build_image}:latest"
+          docker push "$DOCKER_USERNAME/${!build_image}:latest"
+        fi
+
       fi
       printf 'travis_fold:%s:%s\n' "end" "${!build_image}"
     done
