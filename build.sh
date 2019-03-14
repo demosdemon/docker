@@ -62,7 +62,7 @@ for build_image in "${build_images[@]}"; do
 	_exec docker pull "$from"
 
 	_log "Pulling $latest_image..."
-	_exec docker pull "$latest_image"
+	_exec docker pull "$latest_image" || true
 
 	_log "Building $image..."
 	_exec docker build --cache-from "$latest_image" -t "$image" "images/${build_image}"
