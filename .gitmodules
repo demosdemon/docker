@@ -10,3 +10,6 @@
 [submodule "docker-tox"]
 	path = images/tox
 	url = ../docker-tox.git
+[submodule "docker-gbp"]
+	path = images/gbp
+	url = ../docker-gbp.git

@@ -14,6 +14,7 @@ else
 fi
 
 declare -a build_images=(
+	gbp
 	pyenv
 	tox-base
 	tox
