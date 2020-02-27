@@ -57,6 +57,11 @@ for build_image in "${build_images[@]}"; do
 	latest_image="${DOCKER_USERNAME}/${build_image}:latest"
 	image="${DOCKER_USERNAME}/${build_image}:${TRAVIS_BUILD_NUMBER:-0}"
 
+	_log "Pulling $latest_image for cache"
+	if ! _exec docker pull "$latest_image"; then
+		_warn "Unable to pull latest image. Docker will rebuild image from scratch."
+	fi
+
 	_log "Building $image..."
 	_exec docker build --pull --cache-from "$latest_image" -t "$image" "images/${build_image}"
 
