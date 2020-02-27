@@ -57,15 +57,8 @@ for build_image in "${build_images[@]}"; do
 	latest_image="${DOCKER_USERNAME}/${build_image}:latest"
 	image="${DOCKER_USERNAME}/${build_image}:${TRAVIS_BUILD_NUMBER:-0}"
 
-	from=$(grep '^FROM' "images/${build_image}/Dockerfile" | cut -d ' ' -f2)
-	_log "Pulling base image $from..."
-	_exec docker pull "$from"
-
-	_log "Pulling $latest_image..."
-	_exec docker pull "$latest_image" || true
-
 	_log "Building $image..."
-	_exec docker build --cache-from "$latest_image" -t "$image" "images/${build_image}"
+	_exec docker build --pull --cache-from "$latest_image" -t "$image" "images/${build_image}"
 
 	if [[ -n $DOCKER_PASSWORD ]]; then
 		_log "Uploading $image"
