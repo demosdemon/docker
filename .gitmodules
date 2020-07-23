@@ -13,3 +13,6 @@
 [submodule "docker-gbp"]
 	path = images/gbp
 	url = ../docker-gbp.git
+[submodule "thumbor"]
+	path = images/thumbor
+	url = ../thumbor.git

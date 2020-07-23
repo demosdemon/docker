@@ -81,3 +81,11 @@ for build_image in "${build_images[@]}"; do
 	fi
 	_travis end "$build_image"
 done
+
+_travis start thumbor
+cd ./images/thumbor
+IMAGE_PREFIX=$DOCKER_USERNAME ./build.sh
+if [[ -n $DOCKER_PASSWORD ]]; then
+	IMAGE_PREFIX=$DOCKER_USERNAME ./push.sh "$TRAVIS_BRANCH";
+fi
+_travis end thumbor
