@@ -84,8 +84,8 @@ done
 
 _travis start thumbor
 cd ./images/thumbor
-IMAGE_PREFIX=$DOCKER_USERNAME ./build.sh
+IMAGE_PREFIX=$DOCKER_USERNAME ./build
 if [[ -n $DOCKER_PASSWORD ]]; then
-	IMAGE_PREFIX=$DOCKER_USERNAME ./push.sh "$TRAVIS_BRANCH";
+	IMAGE_PREFIX=$DOCKER_USERNAME ./push "$TRAVIS_BRANCH";
 fi
 _travis end thumbor
